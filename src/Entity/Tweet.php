@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TweetRepository")
  */
-class Tweet
+class Tweet implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -56,5 +56,15 @@ class Tweet
     public function getTimestamp(): \DateTimeImmutable
     {
         return $this->timestamp;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'text' => $this->text,
+            'userName' => $this->userName,
+            'timestamp' => $this->timestamp,
+        ];
     }
 }
