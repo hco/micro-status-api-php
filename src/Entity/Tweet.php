@@ -26,6 +26,23 @@ class Tweet
      */
     private $timestamp;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $userName;
+
+    public function __construct(string $text, \DateTimeImmutable $timestamp, string $userName)
+    {
+        $this->text = $text;
+        $this->timestamp = $timestamp;
+        $this->userName = $userName;
+    }
+
+    public function getUserName(): string
+    {
+        return $this->userName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,18 +53,8 @@ class Tweet
         return $this->text;
     }
 
-    public function setText(string $text): void
-    {
-        $this->text = $text;
-    }
-
     public function getTimestamp(): \DateTimeImmutable
     {
         return $this->timestamp;
-    }
-
-    public function setTimestamp(\DateTimeImmutable $timestamp): void
-    {
-        $this->timestamp = $timestamp;
     }
 }
