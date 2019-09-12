@@ -27,20 +27,22 @@ class Tweet implements \JsonSerializable
     private $timestamp;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @var User
      */
-    private $userName;
+    private $user;
 
-    public function __construct(string $text, \DateTimeImmutable $timestamp, string $userName)
+    public function __construct(string $text, \DateTimeImmutable $timestamp, User $user)
     {
         $this->text = $text;
         $this->timestamp = $timestamp;
-        $this->userName = $userName;
+        $this->user = $user;
     }
 
-    public function getUserName(): string
+    public function getUsername(): string
     {
-        return $this->userName;
+        return $this->user->getUsername();
     }
 
     public function getId(): ?int
@@ -63,7 +65,7 @@ class Tweet implements \JsonSerializable
         return [
             'id' => $this->id,
             'text' => $this->text,
-            'userName' => $this->userName,
+            'username' => $this->getUsername(),
             'timestamp' => $this->timestamp,
         ];
     }

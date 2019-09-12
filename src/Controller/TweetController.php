@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Tweet;
+use App\Entity\User;
 use App\Repository\TweetRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,9 +29,19 @@ class TweetController extends AbstractController
     /**
      * @Route("/users/{userName}/tweets")
      */
-    public function tweetsForUser(string $userName, TweetRepository $repository)
+    public function tweetsForUser(string $userName, TweetRepository $tweetRepository, UserRepository $userRepository)
     {
-        return new JsonResponse($repository->findByUserName($userName));
+        $user = $userRepository->findOneByUsername($userName);
+        if (!$user instanceof User) {
+            return new JsonResponse(
+                [
+                    'error' => 'Unknown user'
+                ],
+                404
+            );
+        }
+
+        return new JsonResponse($tweetRepository->findByUser($user));
     }
 
     /**
@@ -38,7 +50,7 @@ class TweetController extends AbstractController
      */
     public function tweetsForCurrentUser(UserInterface $user, TweetRepository $repository)
     {
-        return new JsonResponse($repository->findByUserName($user->getUsername()));
+        return new JsonResponse($repository->findByUser($user));
     }
 
     /**
@@ -53,7 +65,7 @@ class TweetController extends AbstractController
 
         $data = json_decode($request->getContent());
 
-        $tweet = new Tweet($data->text, new \DateTimeImmutable(), $user->getUsername());
+        $tweet = new Tweet($data->text, new \DateTimeImmutable(), $user);
         $entityManager->persist($tweet);
         $entityManager->flush();
 
