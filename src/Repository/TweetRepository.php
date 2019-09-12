@@ -10,6 +10,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Tweet|null find($id, $lockMode = null, $lockVersion = null)
  * @method Tweet|null findOneBy(array $criteria, array $orderBy = null)
  * @method Tweet[]    findAll()
+ * @method Tweet[]    findByUserName()
  * @method Tweet[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TweetRepository extends ServiceEntityRepository
