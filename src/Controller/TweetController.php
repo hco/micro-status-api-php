@@ -47,10 +47,13 @@ class TweetController extends AbstractController
      */
     public function addTweet(Request $request, UserInterface $user, EntityManagerInterface $entityManager)
     {
-        if($request->getContentType() !== 'json') {
+        if ($request->getContentType() !== 'json') {
             throw new BadRequestHttpException('Only JSON body is support');
         }
-        $tweet = new Tweet('hallo', new \DateTimeImmutable(), $user->getUsername());
+
+        $data = json_decode($request->getContent());
+
+        $tweet = new Tweet($data->text, new \DateTimeImmutable(), $user->getUsername());
         $entityManager->persist($tweet);
         $entityManager->flush();
 
