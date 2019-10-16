@@ -12,6 +12,6 @@ class HelloWorldController
      */
     public function hello()
     {
-        return new JsonResponse("Hello World");
+        return new JsonResponse("Hello, World!");
     }
 }
