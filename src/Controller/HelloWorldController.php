@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelloWorldController
 {
     /**
-     * @Route("/hello")
+     * @Route("/hello", methods={"GET","HEAD"})
      */
     public function hello()
     {

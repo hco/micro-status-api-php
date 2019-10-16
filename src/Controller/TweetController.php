@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TweetController extends AbstractController
 {
     /**
-     * @Route("/tweets")
+     * @Route("/tweets", methods={"GET","HEAD"})
      */
     public function allTweets(TweetRepository $repository)
     {
@@ -27,7 +27,7 @@ class TweetController extends AbstractController
     }
 
     /**
-     * @Route("/users/{userName}/tweets")
+     * @Route("/users/{userName}/tweets", methods={"GET","HEAD"})
      */
     public function tweetsForUser(string $userName, TweetRepository $tweetRepository, UserRepository $userRepository)
     {
@@ -45,7 +45,7 @@ class TweetController extends AbstractController
     }
 
     /**
-     * @Route("/me/tweets")
+     * @Route("/me/tweets", methods={"GET","HEAD"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function tweetsForCurrentUser(UserInterface $user, TweetRepository $repository)
