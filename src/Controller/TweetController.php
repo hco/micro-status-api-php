@@ -29,15 +29,15 @@ class TweetController extends AbstractController
     /**
      * @Route("/users/{userName}/tweets", methods={"GET","HEAD"})
      */
-    public function tweetsForUser(string $userName, TweetRepository $tweetRepository, UserRepository $userRepository)
-    {
+    public function tweetsForUser(
+        string $userName,
+        TweetRepository $tweetRepository,
+        UserRepository $userRepository
+    ) {
         $user = $userRepository->findOneByUsername($userName);
         if (!$user instanceof User) {
-            return new JsonResponse(
-                [
-                    'error' => 'Unknown user'
-                ],
-                404
+            throw $this->createNotFoundException(
+                'User ' . $userName . ' not found'
             );
         }
 
